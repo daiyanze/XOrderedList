@@ -1,0 +1,27 @@
+{
+  "name": "modelizr",
+  "version": "0.0.1",
+  "description": "A light-weight js library for managing data store",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daiyanze/Modelizr.git"
+  },
+  "keywords": [
+    "modelizr",
+    "normalizr",
+    "database",
+    "redux",
+    "vuex",
+    "flux"
+  ],
+  "author": "daiyanze",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daiyanze/Modelizr/issues"
+  },
+  "homepage": "https://github.com/daiyanze/Modelizr#readme"
+}
