@@ -1,16 +1,14 @@
 {
-	"plugins": [
-		"@babel/preset-env"
-	],
+	"presets": ["env", "stage-1"],
 	"env": {
 		"commonjs": {
 			"plugins": [
-				["transform-es2015-module-commonjs", { "loose": true }]
+				["babel-plugin-transform-es2015-modules-commonjs", { "loose": true }]
 			]
 		},
 		"umd": {
 			"plugins": [
-				["transform-es2015-module-umd", { "loose": true }],
+				["babel-plugin-transform-es2015-modules-umd", { "loose": true }],
 			],
 			"moduleId": "Modelizr"
 		},
