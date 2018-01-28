@@ -1,0 +1,18 @@
+{
+	"plugins": [
+		"@babel/preset-env"
+	],
+	"env": {
+		"commonjs": {
+			"plugins": [
+				["transform-es2015-module-commonjs", { "loose": true }]
+			]
+		},
+		"umd": {
+			"plugins": [
+				["transform-es2015-module-umd", { "loose": true }],
+			],
+			"moduleId": "Modelizr"
+		},
+	}
+}
