@@ -1,4 +1,7 @@
-import { combineTwoArrays } from './utils'
+import {
+  combineTwoArrays,
+  removeProperties
+} from './utils'
 
 class Modelizr {
   property = {
@@ -69,19 +72,25 @@ class Modelizr {
     return res
   }
 
-  _insertStrategy (arr, option, reverse = false) {
+  _avoidStrategy (arr, option) {
     if (this.avoidOptions[option].length) {
       arr = arr.filter(a =>
-        !this.avoidOptions[option].includes(
-          a[this.property.idAttribute]
-        )
+        const id = option === 'remove'
+          ? a
+          : a[this.property.idAttribute] 
+        return this.avoidOptions[option].includes(id)
       )
     }
-    const incoming = this._normalize(arr)
-    this.merge({ incoming, reverse })
+    return arr
   }
 
-  _basicMergeStrategy (incoming, reverse = false) {
+  _insertStrategy (arr, option, reverse = false) {
+    arr = this._avoidStrategy(arr, option)
+    const incoming = this._normalize(arr)
+    return this.merge({ incoming, reverse })
+  }
+
+  _mergeStrategy (incoming, reverse = false) {
     const entities = {
       ...this.property.entities,
       ...incoming.property.entities
@@ -111,9 +120,15 @@ class Modelizr {
       mergeStrategy &&
       typeof mergeStrategy === 'function'
     ) {
-      this.property = this._customMergeStrategy(mergeStrategy)
+      this.property = {
+        ...this.property,
+        this._customMergeStrategy(mergeStrategy)
+      }
     } else {
-      this.property = this._basicMergeStrategy(incoming, reverse)
+      this.property = {
+        ...this.property,
+        this._mergeStrategy(incoming, reverse)
+      }
     }
     return this
   }
@@ -136,26 +151,45 @@ class Modelizr {
   unshift (arr = []) {
     if (arr.length) {
       this._insertStrategy(arr, 'unshift', true)
-      return this._reproduce()
+      this._reproduce()
     }
+
     return this
   }
 
   append (arr = []) {
     if (arr.length) {
       this._insertStrategy(arr, 'unshift')
-      return this._reproduce()
+      this._reproduce()
     }
+
     return this
   }
 
   // Only update data and not change the order of the ids
   update (arr = []) {
+    if (arr.length) { 
+      arr = this._avoidStrategy(arr)
+      const incoming = this._normalize(arr)
+      this.property = {
+        ...this.property,
+        entities: incoming.entities
+      }
+      this._reproduce()
+    }
 
+    return this
   }
 
   remove (ids = []) {
+    if (ids.length) {
+      ids = this._avoidStrategy(ids)
+      this.property.entities = removeProperties(ids, this.property.entities)
+      this.property.ids = this.property.ids.filter(id => !ids.includes(id))
+      this._reproduce()
+    }
 
+    return this
   }
 
   clearAll () {
@@ -176,23 +210,19 @@ class Modelizr {
     return this.data.keys
   }
 
-  get values () {
-    return this.data.values
-  }
-
   get size () {
-    return this.data.keys.length
+    return this.data.length
   }
 
   get length () {
-    return this.data.keys.length
+    return this.data.length
   }
 
   get first () {
-    return this.data.values[0]
+    return this.data[0]
   }
 
   get last () {
-    return this.data.values[this.size - 1]
+    return this.data[this.length - 1]
   }
 }
