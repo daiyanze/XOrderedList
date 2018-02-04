@@ -1,4 +1,5 @@
 # Modelizr
-A light-weight js library for managing data store
+A useful tool to manage json arrays for (not only) react app.
+
 Inspired by [Normalizr](https://github.com/paularmstrong/normalizr)
 

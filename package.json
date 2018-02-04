@@ -27,8 +27,7 @@
     "normalizr",
     "database",
     "redux",
-    "vuex",
-    "flux"
+    "react"
   ],
   "author": "daiyanze",
   "license": "MIT",
