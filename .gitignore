@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
 *.log
-dist
 yarn.lock
 !test/node_modules
+dist
+es
+lib
