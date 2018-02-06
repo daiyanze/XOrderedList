@@ -1,212 +1,213 @@
-import { groupBy, deepAttribute } from './utils.js'
+import {
+  combineTwoArrays,
+  removeProperties
+} from './utils'
 
-class Model {
-  props = {
+class Modelizr {
+  property = {
     entities: {},
-    idAttribute: 'id',
     ids: [],
+    idAttribute: 'id',
     name: 'default_model'
   }
 
-  // Avoid changing props by putting entities ids into whiteList
-  whiteList = { add: [], removal: [] }
+  avoidOptions = {
+    unshift: [],
+    append: [],
+    update: [],
+    remove: []
+  }
 
-  constructor(args) {
-    const { name = 'default_model', idAttribute = 'id', data } = args
-    this.props.name = name
-    this.props.idAttribute = idAttribute
+  data = []
+
+  constructor (args) {
+    const {
+      name,
+      idAttribute,
+      data,
+      avoidOptions
+    } = args
+
+    this.property.name = name
+    this.property.idAttribute = idAttribute
+
+    if (avoidOptions) {
+      this.avoidOptions = avoidOptions
+    }
+
     if (data) {
-      this.addEntities(data)
+      this.append(data)
     }
   }
 
-  addEntities(listOfObj = [], old = false) {
-    const res = this._normalize(listOfObj.filter(d => this._avoidStrategy(d.id, 'add')))
-    this.merge(res, (prev, res) => this._basicMergeStrategy(prev, res, old))
+  _reproduce (ids = this.property.ids) {
+    this.data = this._denormalize(ids)
     return this
   }
 
-  removeEntities(list = []) {
-    const { ids } = this.props
-    const filteredIds = ids.filter(id => list.indexOf(id) < 0)
-    if (filteredIds.length === ids.length) return this
-    const res = this._reproduce(filteredIds.filter(id => this._avoidStrategy(id, 'removal')))
-    this.merge(res, (prev, res) => ({ entities: res.props.entities, ids: res.props.ids }))
-    return this
-  }
+  _normalize (arr) {
+    const res = { ids: [], entities: {} }
 
-  resetEntities(list = []) {
-    const res = this._reproduce(list)
-    this.merge(res, (prev, res) => ({ entities: res.props.entities, ids: res.props.ids }))
-    return this
-  }
-
-  avoidEntities(list = [], on = null) {
-    // on : 'add' or 'removal'
-    // Avoid changing entities while updating props
-    this.whiteList[on] = list
-    return this
-  }
-
-  _avoidStrategy(id, mode) {
-    // all modes are 'add' or 'removal' or 'both' ['add', 'removal', 'both']
-    if (mode && this.whiteList[mode] && this.whiteList[mode].length > 0) {
-      return this.whiteList[mode].indexOf(id) < 0
-    }
-    return true
-  }
-
-  clearAll() {
-    this.props = { ...this.props, ids: [], entities: {} }
-    return this
-  }
-
-  merge(target, cb) {
-    // target needs to have the same property type of 'props'
-    this._mergeStrategy(this, target, cb)
-    return this
-  }
-
-  _mergeStrategy(prev, next, cb) {
-    // cb's return should contain { entities, ids }
-    if (cb) {
-      this.props = { ...this.props, ...cb(prev, next) }
-    } else {
-      this._basicMergeStrategy(prev, next)
-    }
-    return this
-  }
-
-  _basicMergeStrategy(prev, next, reverse = false) {
-    this.props.entities = { ...prev.props.entities, ...next.props.entities }
-    this.props.ids = reverse
-      ? [...new Set([...prev.props.ids, ...next.props.ids])]
-      : [...new Set([...next.props.ids, ...prev.props.ids])]
-    return { entities: this.props.entities, ids: this.props.ids }
-  }
-
-  _normalize(listOfObj) {
-    const nm = listOfObj.reduce((group, item) => {
-      const id = item[this.props.idAttribute]
-      if (group.ids.indexOf(id) < 0) {
-        group.ids.push(id)
-        group.entities[id] = item
+    if (arr) {
+      for (const a of arr) {
+        const id = a[this.property.idAttribute]
+        res.ids.push(id)
+        res.entities[id] = a
       }
-      return group
-    }, { ids: [], entities: {} })
-    return { props: { ...this.props, ids: nm.ids, entities: nm.entities } }
+    }
+
+    return res
   }
 
-  _denormalize(list = this.props.ids) {
-    return list.map(id => this.props.entities[id])
+  _denormalize (ids = this.property.ids) {
+    const res = []
+
+    for (const id of ids) {
+      const entity = this.property.entities[id]
+      if (entity) {
+        res.push(entity)
+      }
+    }
+
+    return res
   }
 
-  _reproduce(list = this.props.ids) {
-    return this._normalize(this._denormalize(list))
-  }
-}
-
-class Modelizr extends Model {
-  data = { keys: [], values: [] }
-  result = []
-
-  constructor(args) {
-    super(args)
-    this.restore()
+  _avoidStrategy (arr, option) {
+    if (this.avoidOptions[option].length) {
+      arr = arr.filter(a =>
+        const id = option === 'remove'
+          ? a
+          : a[this.property.idAttribute] 
+        return this.avoidOptions[option].includes(id)
+      )
+    }
+    return arr
   }
 
-  get keys() {
+  _insertStrategy (arr, option, reverse = false) {
+    arr = this._avoidStrategy(arr, option)
+    const incoming = this._normalize(arr)
+    return this.merge({ incoming, reverse })
+  }
+
+  _mergeStrategy (incoming, reverse = false) {
+    const entities = {
+      ...this.property.entities,
+      ...incoming.property.entities
+    }
+
+    const ids = combineTwoArrays(
+      this.property.ids,
+      incoming.property.ids,
+      reverse
+    )
+
+    return {
+      entities: {
+        ...this.property.entities,
+        ...incoming.property.entities
+      }
+      ids: [...new Set(ids)]
+    }  
+  }
+
+  merge ({ incoming, cb, reverse = false }) {
+    if (cb && typeof cb === 'function') {
+      this.property = {
+        ...this.property,
+        cb(incoming, this.property)
+      }
+    } else {
+      this.property = {
+        ...this.property,
+        this._mergeStrategy(incoming, reverse)
+      }
+    }
+    return this
+  }
+
+  // avoid modifying stored data while manipulating property
+  avoid (options) {
+    this.avoidOptions = {
+      ...this.avoidOptions,
+      ...options
+    }
+    return this
+  }
+
+  get (ids = []) {
+    if (!ids.length) return []
+    this._reproduce()
+    return this.data
+  }
+
+  unshift (arr = []) {
+    if (arr.length) {
+      this._insertStrategy(arr, 'unshift', true)
+      this._reproduce()
+    }
+
+    return this
+  }
+
+  append (arr = []) {
+    if (arr.length) {
+      this._insertStrategy(arr, 'unshift')
+      this._reproduce()
+    }
+
+    return this
+  }
+
+  // Only update data and not change the order of the ids
+  update (arr = []) {
+    if (arr.length) { 
+      arr = this._avoidStrategy(arr)
+      const incoming = this._normalize(arr)
+      this.property = {
+        ...this.property,
+        entities: incoming.entities
+      }
+      this._reproduce()
+    }
+
+    return this
+  }
+
+  remove (ids = []) {
+    if (ids.length) {
+      ids = this._avoidStrategy(ids)
+      this.property.entities = removeProperties(ids, this.property.entities)
+      this.property.ids = this.property.ids.filter(id => !ids.includes(id))
+      this._reproduce()
+    }
+
+    return this
+  }
+
+  clearAll () {
+    this.property = {
+      ...this.property,
+      ids: [],
+      entities: {}
+    }
+
+    return this
+  }
+
+  get keys () {
     return this.data.keys
   }
 
-  get values() {
-    return this.data.values
+  get size () {
+    return this.data.length
   }
 
-  get size() {
-    return this.data.keys.length
+  get first () {
+    return this.data[0]
   }
 
-  get first() {
-    return this.data.values[0]
-  }
-
-  get last() {
-    return this.data.values[this.size - 1]
-  }
-
-  find(list = []) {
-    if (typeof list !== 'object') return null
-    if (list.length < 1) return null
-    return this._denormalize(list)
-  }
-
-  findOne(id) {
-    if (this.props.ids.indexOf(id) < 0) return null
-    return this.props.entities[id]
-  }
-
-  filterBy({ cond = {}, cb, override = false }) {
-    // e.g. cond = { id: { list: [1], exclude: false }, timestamp: { list: ['2017-01-01', '2017-02-02'], exclude: true } }
-    const res = cb && typeof cb === 'function'
-      ? cb(this.data.values, cond)
-      : this.data.values.filter(
-        d => Object.keys(cond).every(
-          e => cond[e].list.length > 0
-          ? (cond[e].exclude
-            ? cond[e].list.every(f => f !== d[e])
-            : cond[e].list.some(f => f === d[e]))
-          : true
-        )
-      )
-    if (override && typeof override === 'boolean') {
-      this.data = this._keysValues(res)
-    }
-    this.result = res
-    return this
-  }
-
-  groupBy({ index = [], cb, override = false }) {
-    // { location : { address1: "some place interesting" } }
-    // needs to be written into deeply nested `index` like this ['location', 'address1']
-    const res = cb && typeof cb === 'function'
-      ? cb(this.data.values, index)
-      : groupBy(this.data.values, index)
-    if (override && typeof override === 'boolean') {
-      this.data = this._keysValues(res)
-    }
-    this.result = res
-    return this
-  }
-
-  sortBy({ index = [], cb, override = false }) {
-    // the way to use `index` is the same to groupBy
-    const res = cb && typeof cb === 'function'
-      ? cb(this.data.values, index)
-      : this.data.values.sort((a, b) => deepAttribute(b, index) - deepAttribute(a, index))
-    if (override && typeof override === 'boolean') {
-      this.data = this._keysValues(res)
-    }
-    this.result = res
-    return this
-  }
-
-  restore() {
-    this.data = this._generate()
-    return this
-  }
-
-  _generate() {
-    if (this.props.ids.length < 1) return this._keysValues()
-    const res = this._denormalize()
-    return this._keysValues(res)
-  }
-
-  _keysValues(res = {}) {
-    const keys = Object.keys(res)
-    const values = keys.length > 0 ? Object.values(res) : []
-    return { keys, values }
+  get last () {
+    return this.data[this.length - 1]
   }
 }
-
-export default Modelizr
