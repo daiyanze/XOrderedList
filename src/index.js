@@ -196,7 +196,8 @@ class Modelizr {
   }
 
   changeWith (cb) {
-    return cb(this)
+    if (cb && typeof cb === 'function') cb(this)
+    return this
   }
 
   get keys () {
