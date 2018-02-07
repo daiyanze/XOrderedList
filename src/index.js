@@ -77,7 +77,7 @@ class Modelizr {
       arr = arr.filter(a =>
         const id = option === 'remove'
           ? a
-          : a[this.property.idAttribute] 
+          : a[this.property.idAttribute]
         return this.avoidOptions[option].includes(id)
       )
     }
@@ -108,7 +108,7 @@ class Modelizr {
         ...incoming.property.entities
       }
       ids: [...new Set(ids)]
-    }  
+    }
   }
 
   merge ({ incoming, cb, reverse = false }) {
@@ -161,7 +161,7 @@ class Modelizr {
 
   // Only update data and not change the order of the ids
   update (arr = []) {
-    if (arr.length) { 
+    if (arr.length) {
       arr = this._avoidStrategy(arr)
       const incoming = this._normalize(arr)
       this.property = {
@@ -195,6 +195,10 @@ class Modelizr {
     return this
   }
 
+  changeWith (cb) {
+    return cb(this)
+  }
+
   get keys () {
     return this.data.keys
   }
@@ -211,3 +215,4 @@ class Modelizr {
     return this.data[this.length - 1]
   }
 }
+

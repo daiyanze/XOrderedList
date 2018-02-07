@@ -10,3 +10,4 @@ export const removeProperties = (keys, obj) => {
   }
   return obj
 }
+
