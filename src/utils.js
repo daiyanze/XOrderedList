@@ -1,7 +1,19 @@
-export const combineTwoArrays = (arr1, arr2, reverse = false) => {
-  const frontArr = reverse ? arr2 : arr1
-  const backArr = reverse ? arr1 : arr2
-  return frontArr.concat(backArr)
+function filter(core) {
+  const keys = Object.keys(conditions);
+  return core.values.filter(v => {
+    let res = true;
+    for (const k of keys) {
+      const c = conditions[k].contain;
+      const e = conditions[k].exclude;
+      if (!!c) {
+        res = c.some(d => d === v[k]);
+      }
+      if (!!e) {
+        res = e.every(d => d !== v[k]);
+      }
+    }
+    return res;
+  });
 }
 
 export const removeProperties = (keys, obj) => {

@@ -1,219 +1,77 @@
-import {
-  combineTwoArrays,
-  removeProperties
-} from './utils'
-
-class Modelizr {
-  property = {
-    entities: {},
-    ids: [],
-    idAttribute: 'id',
-    name: 'default_model'
+class Modelizr extends Map {
+  
+  constructor(arrOfObj, idAttr = 'id') {
+    super();
+    this.data = this.convertIntoOrderedMap(arrOfObj);
+    this.idAttr = idAttr;
   }
 
-  avoidOptions = {
-    unshift: [],
-    append: [],
-    update: [],
-    remove: []
+  convertIntoOrderedMap(arrOfObj) {
+    const data = arrOfObj.map(a => [a[this.idAttr], a]);
+    return new Map(data);
   }
 
-  data = []
-
-  constructor (args) {
-    const {
-      name,
-      idAttribute,
-      data,
-      avoidOptions
-    } = args
-
-    this.property.name = name
-    this.property.idAttribute = idAttribute
-
-    if (avoidOptions) {
-      this.avoidOptions = avoidOptions
-    }
-
-    if (data) {
-      this.append(data)
-    }
+  get values() {
+    return Array.from(this.data.values());
   }
-
-  _reproduce (ids = this.property.ids) {
-    this.data = this._denormalize(ids)
-    return this
+  
+  get keys() {
+    return Array.from(this.data.keys());
   }
-
-  _normalize (arr) {
-    const res = { ids: [], entities: {} }
-
-    if (arr) {
-      for (const a of arr) {
-        const id = a[this.property.idAttribute]
-        res.ids.push(id)
-        res.entities[id] = a
+  
+  get size() {
+    return this.data.size;
+  }
+  
+  get length() {
+    return this.size;
+  }
+  
+  get first() {
+    return this.values[0];
+  }
+  
+  get last() {
+    return thks.values[this.size - 1];
+  }
+  
+  unshift(arrOfObj) {
+    this.data = this.convertIntoOrderedMap(arrOfObj.concat(this.values));
+    return this;
+  }
+  
+  push(arrOfObj) {
+    this.data = this.convertIntoOrderedMap(this.values.concat(arrOfObj));
+    return this;
+  }
+  
+  update(arrOfObj) {
+    for (const a of arrOfObj) {
+      if (this.data.get(a[this.idAttr])) {
+        this.data.set(a[this.idAttr], a);
       }
     }
-
-    return res
+    return this;
   }
-
-  _denormalize (ids = this.property.ids) {
-    const res = []
-
-    for (const id of ids) {
-      const entity = this.property.entities[id]
-      if (entity) {
-        res.push(entity)
-      }
-    }
-
-    return res
-  }
-
-  _avoidStrategy (arr, option) {
-    if (this.avoidOptions[option].length) {
-      arr = arr.filter(a =>
-        const id = option === 'remove'
-          ? a
-          : a[this.property.idAttribute]
-        return this.avoidOptions[option].includes(id)
-      )
-    }
-    return arr
-  }
-
-  _insertStrategy (arr, option, reverse = false) {
-    arr = this._avoidStrategy(arr, option)
-    const incoming = this._normalize(arr)
-    return this.merge({ incoming, reverse })
-  }
-
-  _mergeStrategy (incoming, reverse = false) {
-    const entities = {
-      ...this.property.entities,
-      ...incoming.property.entities
-    }
-
-    const ids = combineTwoArrays(
-      this.property.ids,
-      incoming.property.ids,
-      reverse
-    )
-
-    return {
-      entities: {
-        ...this.property.entities,
-        ...incoming.property.entities
-      }
-      ids: [...new Set(ids)]
-    }
-  }
-
-  merge ({ incoming, cb, reverse = false }) {
-    if (cb && typeof cb === 'function') {
-      this.property = {
-        ...this.property,
-        cb(incoming, this.property)
-      }
+  
+  remove(arrOfNum) {
+    if (!arrOfNum) {
+      this.data.clear();
     } else {
-      this.property = {
-        ...this.property,
-        this._mergeStrategy(incoming, reverse)
+      for (const id of arrOfNum) {
+        this.data.delete(id);
       }
     }
-    return this
+    return this;
   }
-
-  // avoid modifying stored data while manipulating property
-  avoid (options) {
-    this.avoidOptions = {
-      ...this.avoidOptions,
-      ...options
-    }
-    return this
-  }
-
-  get (ids = []) {
-    if (!ids.length) return []
-    this._reproduce()
-    return this.data
-  }
-
-  unshift (arr = []) {
-    if (arr.length) {
-      this._insertStrategy(arr, 'unshift', true)
-      this._reproduce()
-    }
-
-    return this
-  }
-
-  append (arr = []) {
-    if (arr.length) {
-      this._insertStrategy(arr, 'unshift')
-      this._reproduce()
-    }
-
-    return this
-  }
-
-  // Only update data and not change the order of the ids
-  update (arr = []) {
-    if (arr.length) {
-      arr = this._avoidStrategy(arr)
-      const incoming = this._normalize(arr)
-      this.property = {
-        ...this.property,
-        entities: incoming.entities
+  
+  mutateBy(cb) {
+    if (cb) {
+      const data = cb(this);
+      if (data.length) {
+        this.data = this.convertIntoOrderedMap(data); 
       }
-      this._reproduce()
     }
-
-    return this
-  }
-
-  remove (ids = []) {
-    if (ids.length) {
-      ids = this._avoidStrategy(ids)
-      this.property.entities = removeProperties(ids, this.property.entities)
-      this.property.ids = this.property.ids.filter(id => !ids.includes(id))
-      this._reproduce()
-    }
-
-    return this
-  }
-
-  clearAll () {
-    this.property = {
-      ...this.property,
-      ids: [],
-      entities: {}
-    }
-
-    return this
-  }
-
-  changeWith (cb) {
-    if (cb && typeof cb === 'function') cb(this)
-    return this
-  }
-
-  get keys () {
-    return this.data.keys
-  }
-
-  get size () {
-    return this.data.length
-  }
-
-  get first () {
-    return this.data[0]
-  }
-
-  get last () {
-    return this.data[this.length - 1]
+    return this;
   }
 }
-
