@@ -32,7 +32,7 @@ class Modelizr extends Map {
   }
   
   get last() {
-    return thks.values[this.size - 1];
+    return this.values[this.size - 1];
   }
   
   unshift(arrOfObj) {
