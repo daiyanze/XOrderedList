@@ -1,5 +1,6 @@
 {
   "env": {
+    "es6": true,
     "browser": true,
     "node": true
   },
@@ -14,7 +15,7 @@
     "indent": [2, 2, { "SwitchCase": 1 }],
     "object-curly-spacing": [2, "always"],
     "prefer-const": 2,
-    "prefer-arrow-callback": 2,
-    "quotes": [1, "single", { "aboidEscape": true }]
+    "quotes": [1, "single", { "avoidEscape": true }],
+    "prefer-arrow-callback": 2
   }
 }
