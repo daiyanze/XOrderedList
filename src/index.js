@@ -1,11 +1,11 @@
 export default class Modelizr {
   
   constructor(arrOfObj, idAttr = 'id') {
-    this.data = this.makeOrderedMap(arrOfObj)
     this.idAttr = idAttr
+    this.data = this.makeOrderedMap(arrOfObj)
   }
 
-  makeOrderedMap(arrOfObj) {
+  makeOrderedMap(arrOfObj = []) {
     const data = arrOfObj.map(a => [a[this.idAttr], a])
     return Object.freeze(new Map(data))
   }
@@ -79,9 +79,9 @@ export default class Modelizr {
     return this
   }
   
-  mutateBy(cb) {
+  mutateBy(cb, args = {}) {
     if (cb) {
-      const data = cb.apply(null, this, {})
+      const data = cb.call(null, this, args)
       if (data.length) {
         this.data = this.makeOrderedMap(data) 
       }
