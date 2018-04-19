@@ -1,4 +1,4 @@
-export default class Modelizr {
+export default class OrderedList {
   
   constructor(arrOfObj, idAttr = 'id') {
     this.idAttr = idAttr

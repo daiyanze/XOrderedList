@@ -1,11 +1,11 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import Modelizr from '../src'
+import OrderedList from '../src'
 import { initData, unshiftData, pushData, updateData, removeData } from './data.js'
 
-describe('Modelizr Behaviours', () => {
+describe('OrderedList Behaviours', () => {
   describe('#initialize()', () => {
-    const model = new Modelizr(initData)
+    const model = new OrderedList(initData)
     it('should have data within', () => {
       expect(model).to.have.property('data')
       expect(model.size).to.be.above(0)
@@ -21,7 +21,7 @@ describe('Modelizr Behaviours', () => {
   })
 
   describe('#findOne()', () => {
-    const model = new Modelizr(initData)
+    const model = new OrderedList(initData)
     it('should return data if exists', () => {
       expect(model.findOne(1)).not.to.be.undefined
     })
@@ -32,7 +32,7 @@ describe('Modelizr Behaviours', () => {
   })
 
   describe('#findList()', () => {
-    const model = new Modelizr(initData)
+    const model = new OrderedList(initData)
     it('should return a not empty array if query exists', () => {
       expect(model.findList([1, 2])).to.have.lengthOf(2)
     })
@@ -43,7 +43,7 @@ describe('Modelizr Behaviours', () => {
   })
 
   describe('#unshift()', () => {
-    const model = new Modelizr(initData)
+    const model = new OrderedList(initData)
     model.unshift(unshiftData)
     it('should have new data', () => {
       expect(model.size).to.equal(initData.length + unshiftData.length)
@@ -59,7 +59,7 @@ describe('Modelizr Behaviours', () => {
   })
 
   describe('#push()', () => {
-    const model = new Modelizr(initData)
+    const model = new OrderedList(initData)
     model.push(pushData)
     it('should have new data', () => {
       expect(model.size).to.equal(initData.length + pushData.length)
@@ -75,7 +75,7 @@ describe('Modelizr Behaviours', () => {
   })
 
   describe('#update()', () => {
-    const model = new Modelizr(initData)
+    const model = new OrderedList(initData)
     model.update(updateData)
     it('should have updated data', () => {
       expect(model.size).to.equal(initData.length)
@@ -87,7 +87,7 @@ describe('Modelizr Behaviours', () => {
   })
 
   describe('#remove()', () => {
-    const model = new Modelizr(initData)
+    const model = new OrderedList(initData)
     model.remove(removeData)
     it('should have deleted data', () => {
       expect(model.size).to.equal(initData.length - removeData.length)
@@ -99,7 +99,7 @@ describe('Modelizr Behaviours', () => {
   })
 
   describe('#mutate()', () => {
-    const model = new Modelizr(initData)
+    const model = new OrderedList(initData)
     model
       .unshift(unshiftData)
       .push(pushData)

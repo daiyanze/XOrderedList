@@ -1,12 +1,12 @@
 {
-  "name": "modelizr",
+  "name": "orderedlist",
   "version": "0.0.1",
-  "description": "A light-weight js library for managing data store",
+  "description": "A useful tool for managing array of object",
   "main": "dist/index.js",
   "scripts": {
     "build:commonjs": "better-npm-run build:commonjs",
     "build:umd": "better-npm-run build:umd",
-    "build:umdmin": "uglifyjs dist/modelizr.js -o dist/modelizr.min.js",
+    "build:umdmin": "uglifyjs dist/orderedlist.js -o dist/orderedlist.min.js",
     "build:es": "babel -d es/ src/",
     "build": "npm run reset && npm run build:commonjs && npm run build:umd && npm run build:umdmin && npm run build:es",
     "reset": "better-npm-run reset:folder",
@@ -20,7 +20,7 @@
       }
     },
     "build:umd": {
-      "command": "mkdirp dist/ && babel -o dist/modelizr.js src/",
+      "command": "mkdirp dist/ && babel -o dist/orderedlist.js src/",
       "env": {
         "NODE_ENV": "umd"
       }
@@ -31,21 +31,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daiyanze/Modelizr.git"
+    "url": "git+https://github.com/daiyanze/OrderedList.git"
   },
   "keywords": [
-    "modelizr",
-    "normalizr",
+    "list",
+    "map",
     "database",
-    "redux",
-    "react"
+    "array",
+    "store"
   ],
   "author": "daiyanze",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/daiyanze/Modelizr/issues"
+    "url": "https://github.com/daiyanze/OrderedList/issues"
   },
-  "homepage": "https://github.com/daiyanze/Modelizr#readme",
+  "homepage": "https://github.com/daiyanze/OrderedList#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
