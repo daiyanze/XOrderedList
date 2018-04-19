@@ -1,77 +1,91 @@
-class Modelizr extends Map {
+export default class Modelizr {
   
   constructor(arrOfObj, idAttr = 'id') {
-    super();
-    this.data = this.convertIntoOrderedMap(arrOfObj);
-    this.idAttr = idAttr;
+    this.data = this.makeOrderedMap(arrOfObj)
+    this.idAttr = idAttr
   }
 
-  convertIntoOrderedMap(arrOfObj) {
-    const data = arrOfObj.map(a => [a[this.idAttr], a]);
-    return new Map(data);
+  makeOrderedMap(arrOfObj) {
+    const data = arrOfObj.map(a => [a[this.idAttr], a])
+    return Object.freeze(new Map(data))
   }
 
   get values() {
-    return Array.from(this.data.values());
+    return Array.from(this.data.values())
   }
   
   get keys() {
-    return Array.from(this.data.keys());
+    return Array.from(this.data.keys())
   }
   
   get size() {
-    return this.data.size;
+    return this.data.size
   }
   
   get length() {
-    return this.size;
+    return this.size
   }
   
   get first() {
-    return this.values[0];
+    return this.values[0]
   }
   
   get last() {
-    return this.values[this.size - 1];
+    return this.values[this.size - 1]
+  }
+
+  findOne(index) {
+    return this.data.get(index)
+  }
+
+  findList(arrOfIndexes) {
+    const res = []
+    for (const i of arrOfIndexes) {
+      const item = this.data.get(i)
+      if (item) {
+        res.push(item)
+      }
+    }
+    return res
   }
   
   unshift(arrOfObj) {
-    this.data = this.convertIntoOrderedMap(arrOfObj.concat(this.values));
-    return this;
+    this.data = this.makeOrderedMap(arrOfObj.concat(this.values))
+    return this
   }
   
   push(arrOfObj) {
-    this.data = this.convertIntoOrderedMap(this.values.concat(arrOfObj));
-    return this;
+    this.data = this.makeOrderedMap(this.values.concat(arrOfObj))
+    return this
   }
   
   update(arrOfObj) {
     for (const a of arrOfObj) {
       if (this.data.get(a[this.idAttr])) {
-        this.data.set(a[this.idAttr], a);
+        this.data.set(a[this.idAttr], a)
       }
     }
-    return this;
+    return this
   }
   
-  remove(arrOfNum) {
-    if (!arrOfNum) {
-      this.data.clear();
+  remove(arrOfIndexes) {
+    if (!arrOfIndexes) {
+      this.data.clear()
     } else {
-      for (const id of arrOfNum) {
-        this.data.delete(id);
+      for (const id of arrOfIndexes) {
+        this.data.delete(id)
       }
     }
-    return this;
+    return this
   }
   
   mutateBy(cb) {
     if (cb) {
-      const data = cb(this);
+      const data = cb.apply(null, this, {})
       if (data.length) {
-        this.data = this.convertIntoOrderedMap(data); 
+        this.data = this.makeOrderedMap(data) 
       }
     }
-    return this;
+    return this
   }
 }
