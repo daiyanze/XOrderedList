@@ -10,7 +10,7 @@
     "build:es": "babel -d es/ src/",
     "build": "npm run reset && npm run build:commonjs && npm run build:umd && npm run build:umdmin && npm run build:es",
     "reset": "better-npm-run reset:folder",
-    "test": "test"
+    "test": "mocha --require babel-core/register"
   },
   "betterScripts": {
     "build:commonjs": {
@@ -48,14 +48,17 @@
   "homepage": "https://github.com/daiyanze/Modelizr#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-1": "^6.24.1",
     "better-npm-run": "^0.1.0",
+    "chai": "^4.1.2",
     "eslint": "^4.16.0",
     "mkdirp": "^0.5.1",
+    "mocha": "^5.1.1",
     "uglify-js": "^3.3.9"
   }
 }
