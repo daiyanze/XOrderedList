@@ -1,6 +1,6 @@
 {
   "name": "xorderedlist",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A useful tool for managing array of object",
   "main": "dist/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "build:umdmin": "uglifyjs dist/orderedlist.js -o dist/orderedlist.min.js",
     "build:es": "babel -d es/ src/",
     "build": "npm run reset && npm run build:commonjs && npm run build:umd && npm run build:umdmin && npm run build:es",
-    "release": "standard-version",
+    "release": "npm run reset && npm run build && standard-version",
     "reset": "better-npm-run reset:folder",
     "test": "mocha --require babel-core/register"
   },
