@@ -8,21 +8,32 @@ Sometimes it would be a headache to maintain and to manipulate an array of objec
 
 install
 ```
+// ES5
+var OrderedList = requre('xorderedlist');
+
+// ES6
 npm install xorderedlist
 ```
 
 example
 ```javascript
 import OrderedList from 'xorderedlist'
+
 const list = new OrderedList([{ id: 1, name: 'one' }])
 console.log(list.size) // 1
 
 list.push([{ id: 2, name: 'two' }])
+
 list.unshift([{ id: 0, name: 'zero' }])
+
 list.update([{ id: 1, name: 'update one'}])
+
 list.delete([2])
+
 list.findOne(0)
+
 list.findList([1, 2])
+
 list.mutate((orderedList) => {
   return orderedList.values.map(v => {
     v.name = 'mutate ' + v.name
@@ -52,7 +63,7 @@ list.mutate((orderedList) => {
 | push          | arrOfObject: Array | this   | Add data at the end of list |
 | update        | arrOfObject: Array | this   | Update the given data |
 | delete        | idList: Array      | this   | Delete data by the given id list |
-| mutate        | callback: Function, argument: Object | Array | change the data by passing in your own method |
+| mutate        | callback: Function, argument: Object | Array | change the data by your own method. Support one extra argument |
 
 ### License
 MIT
