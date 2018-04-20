@@ -35,6 +35,8 @@
     "url": "git+https://github.com/daiyanze/OrderedList.git"
   },
   "keywords": [
+    "orderedlist",
+    "orderedlist.js",
     "list",
     "map",
     "database",
