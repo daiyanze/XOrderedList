@@ -8,10 +8,6 @@ Sometimes it would be a headache to maintain and to manipulate an array of objec
 
 install
 ```
-// ES5
-var OrderedList = requre('xorderedlist');
-
-// ES6
 npm install xorderedlist
 ```
 
