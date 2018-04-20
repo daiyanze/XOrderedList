@@ -1,5 +1,9 @@
-# XOrderedList [![Build Status](https://travis-ci.org/daiyanze/OrderedList.svg?branch=master)](https://travis-ci.org/daiyanze/OrderedList)
+# XOrderedList
+[![Build Status](https://travis-ci.org/daiyanze/OrderedList.svg?branch=master)](https://travis-ci.org/daiyanze/OrderedList)
+[![npm version](https://badge.fury.io/js/xorderedlist.svg)](https://badge.fury.io/js/xorderedlist)
+
 A useful tool to manage array of object.
+
 
 ### Introduction
 Sometimes it would be a headache to maintain and to manipulate an array of object. ListStore is just a `Map` wrapper Object that enhances the original `Map` object. It looks like a small "database" which will help you manage arrays in a rather comfortable way.
