@@ -4,6 +4,15 @@ import OrderedList from '../src'
 import { initData, unshiftData, pushData, updateData, removeData } from './data.js'
 
 describe('OrderedList Behaviours', () => {
+  describe('#initialize(not array of Object)', () => {
+    [undefined, null, {}, 1, 'string', false].forEach(d => {
+      it(`should return an empty Map: ${d}`, () => {
+        const model = new OrderedList(undefined)
+        expect(model.size).to.equal(0)
+      })
+    })
+  })
+
   describe('#initialize()', () => {
     const model = new OrderedList(initData)
     it('should have data within', () => {
