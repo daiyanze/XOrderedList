@@ -1,6 +1,6 @@
 {
   "name": "orderedlist.js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A useful tool for managing array of object",
   "main": "dist/index.js",
   "scripts": {
