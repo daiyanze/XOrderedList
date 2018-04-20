@@ -1,5 +1,5 @@
 {
-  "name": "orderedlist.js",
+  "name": "xorderedlist",
   "version": "0.0.5",
   "description": "A useful tool for managing array of object",
   "main": "dist/index.js",

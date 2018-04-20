@@ -1,4 +1,4 @@
-# OrderedList
+# XOrderedList
 A useful tool to manage array of object.
 
 ### Introduction
@@ -8,12 +8,12 @@ Sometimes it would be a headache to maintain and to manipulate an array of objec
 
 install
 ```
-npm install orderedlist
+npm install xorderedlist
 ```
 
 example
 ```javascript
-import OrderedList from 'orderedlist'
+import OrderedList from 'xorderedlist'
 const list = new OrderedList([{ id: 1, name: 'one' }])
 console.log(list.size) // 1
 
