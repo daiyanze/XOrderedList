@@ -26,7 +26,7 @@
       }
     },
     "reset:folder": {
-      "command": "rm -rf lib dist es"
+      "command": "rm -rf lib dist"
     }
   },
   "repository": {
