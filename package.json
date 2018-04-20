@@ -1,6 +1,6 @@
 {
   "name": "xorderedlist",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A useful tool for managing array of object",
   "main": "src/index.js",
   "scripts": {
