@@ -59,6 +59,7 @@
     "eslint": "^4.16.0",
     "mkdirp": "^0.5.1",
     "mocha": "^5.1.1",
+    "standard-version": "^4.3.0",
     "uglify-js": "^3.3.9"
   }
 }
