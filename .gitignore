@@ -4,6 +4,3 @@ node_modules
 package-lock.json
 yarn.lock
 !test/node_modules
-dist
-es
-lib
