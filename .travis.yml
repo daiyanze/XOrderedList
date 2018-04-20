@@ -10,6 +10,6 @@ deploy:
   api_key:
     secure: PC5Ze2mc5evS/8g7DM+gExjUlaRHcgyJym6LvPJf6RcIJnIEgzdY7le+XzroZuwSWarn7ngX+/0qM9xxZF0hkxrC6Ydtd0WdxggzcqP4jhwdLLtCqcrfIoBHFWAPROnQuoM533AIIOiX7VpyTc9ThCT2EEMnDt2LLbl2m4N3+X8nuCVwwnm9gYHgyjJYpxauwopP5fzdAEYmBPf1nKtHBgb4q+4VPsTjsxVewoRFVW6URSzrbSBp94/0GKnCZESmP4V0/7AWwwEI0LU7z1uJOU7HhKnnhSRJ2zpJfFtamEj0bpqhlUVOzYqHPylS30G5tqtqd48oXUIlq/ywFnB7IdVUYtMNJmo58hCJOQufbq1iKOsdTrg+k26UlB+jBq3IJz9dEYZy6gVP/g2CT2guyrXgfPwKycs4FBCSgNdnilncTnCEo3xpGarjiJkNoTdcbLh/PI97dHlRMm5Ec/5cUMLadO+1fW9UbOU61f69jV6caA8+p6hIQYzh+blqpCbr93QxNt+Yrxi2FgqhbY8fCAEn4gu2M22qMueZUSPKHQw0+Ab8iTZnWMKAuTAxuQSxLyOGOcFdXXIAur7vwqzNnEQuoB1iTvfmt2r+34zIQ3TufRnzaC4hXlvetoDn1TSUXoBL86eUry0tDj53R3baHJwOZAS5M+4jrdgSUPGOuE8=
   on:
-    condition: "$TRAVIS_TAG =~ ^(\d{1,2}\.\d{1,2}\.\d{1,2})-release$"
+    condition: "$TRAVIS_TAG =~ ^v(\d{1,2}\.\d{1,2}\.\d{1,2})$"
     tags: true
     repo: daiyanze/OrderedList
