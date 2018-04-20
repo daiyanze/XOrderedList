@@ -5,8 +5,20 @@ export default class OrderedList {
     this.data = this.makeOrderedMap(arrOfObj)
   }
 
-  makeOrderedMap(arrOfObj = []) {
-    const data = arrOfObj.map(a => [a[this.idAttr], a])
+  makeOrderedMap(arrOfObj) {
+    const data = []
+    if (
+      arrOfObj &&
+      arrOfObj instanceof Array &&
+      arrOfObj[0] instanceof Object
+    ) {
+      for (const a of arrOfObj) {
+        const i = a[this.idAttr]
+        if (i !== undefined) {
+          data.push([i, a])
+        }
+      }
+    }
     return Object.freeze(new Map(data))
   }
 
