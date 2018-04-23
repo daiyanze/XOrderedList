@@ -60,6 +60,20 @@ export default class OrderedList {
     }
     return res
   }
+
+  // Insert one piece of data after the given id
+  insertOne(obj, afterId) {
+    if (obj.hasOwnProperty(this.idAttr) && afterId) {
+      let idx = this.keys.indexOf(afterId)
+      idx = idx ? idx : idx + 1
+      if (idx > 0) {
+        const clone = [...this.values]
+        clone.splice(idx, 0, obj)
+        this.data = this.makeOrderedMap(clone)
+      }
+    }
+    return this
+  }
   
   unshift(arrOfObj) {
     if (arrOfObj) {
