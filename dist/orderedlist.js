@@ -15,6 +15,18 @@
 
   exports.__esModule = true;
 
+  function _toConsumableArray(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+        arr2[i] = arr[i];
+      }
+
+      return arr2;
+    } else {
+      return Array.from(arr);
+    }
+  }
+
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -122,6 +134,20 @@
         }
 
         return res;
+      }
+    }, {
+      key: 'insertOne',
+      value: function insertOne(obj, afterId) {
+        if (obj.hasOwnProperty(this.idAttr) && afterId) {
+          var idx = this.keys.indexOf(afterId);
+          idx = idx ? idx : idx + 1;
+          if (idx > 0) {
+            var clone = [].concat(_toConsumableArray(this.values));
+            clone.splice(idx, 0, obj);
+            this.data = this.makeOrderedMap(clone);
+          }
+        }
+        return this;
       }
     }, {
       key: 'unshift',
