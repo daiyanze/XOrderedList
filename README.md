@@ -1,5 +1,5 @@
 # XOrderedList
-[![Build Status](https://travis-ci.org/daiyanze/OrderedList.svg?branch=master)](https://travis-ci.org/daiyanze/OrderedList)
+[![Build Status](https://travis-ci.org/daiyanze/XOrderedList.svg?branch=master)](https://travis-ci.org/daiyanze/XOrderedList)
 [![npm version](https://badge.fury.io/js/xorderedlist.svg)](https://badge.fury.io/js/xorderedlist)
 
 A useful tool to manage array of object.
