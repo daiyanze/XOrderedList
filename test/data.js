@@ -13,6 +13,11 @@ export const initData = [
   }
 ]
 
+export const insertData = {
+  id: 1.5,
+  name: 'one point five'
+}
+
 export const unshiftData = [
   {
     id: 0,

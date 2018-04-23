@@ -1,7 +1,14 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import OrderedList from '../src'
-import { initData, unshiftData, pushData, updateData, removeData } from './data.js'
+import {
+  initData,
+  insertData,
+  unshiftData,
+  pushData,
+  updateData,
+  removeData
+} from './data.js'
 
 describe('OrderedList Behaviours', () => {
   describe('#initialize(not array of Object)', () => {
@@ -48,6 +55,18 @@ describe('OrderedList Behaviours', () => {
 
     it('should return an empty array if query doesnot exist', () => {
       expect(model.findList(['1234', '5678'])).to.have.lengthOf(0)
+    })
+  })
+
+  describe('#insertOne()', () => {
+    const model = new OrderedList(initData)
+    model.insertOne(insertData, 1)
+    it('should inserted new data', () => {
+      expect(model.size).to.equal(initData.length + 1)
+    })
+
+    it('should have the inserted data right after the given id', () => {
+      expect(model.keys[1]).to.equal(1.5)
     })
   })
 
