@@ -28,6 +28,8 @@ list.unshift([{ id: 0, name: 'zero' }])
 
 list.update([{ id: 1, name: 'update one'}])
 
+list.insertOne({id: 1.5, name: 'one point five' }, 1)
+
 list.delete([2])
 
 list.findOne(0)
@@ -59,6 +61,7 @@ list.mutate((orderedList) => {
 | ------------- |:-------------------|:-------|:-------------|
 | findOne       | id: Any            | Object | Same to Map.get. Query one result from list |
 | findList      | idList: Array      | Object | Query results |
+| insertOne     | obj: Object        | this   | Insert data after the given id of the list |
 | unshift       | arrOfObject: Array | this   | Add data to the start of list |
 | push          | arrOfObject: Array | this   | Add data at the end of list |
 | update        | arrOfObject: Array | this   | Update the given data |
