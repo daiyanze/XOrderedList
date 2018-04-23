@@ -62,19 +62,25 @@ export default class OrderedList {
   }
   
   unshift(arrOfObj) {
-    this.data = this.makeOrderedMap(arrOfObj.concat(this.values))
+    if (arrOfObj) {
+      this.data = this.makeOrderedMap(arrOfObj.concat(this.values))
+    }
     return this
   }
   
   push(arrOfObj) {
-    this.data = this.makeOrderedMap(this.values.concat(arrOfObj))
+    if (arrOfObj) {
+      this.data = this.makeOrderedMap(this.values.concat(arrOfObj))
+    }
     return this
   }
   
   update(arrOfObj) {
-    for (const a of arrOfObj) {
-      if (this.data.get(a[this.idAttr])) {
-        this.data.set(a[this.idAttr], a)
+    if (arrOfObj) {
+      for (const a of arrOfObj) {
+        if (this.data.get(a[this.idAttr])) {
+          this.data.set(a[this.idAttr], a)
+        }
       }
     }
     return this
