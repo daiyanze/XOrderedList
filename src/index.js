@@ -114,7 +114,7 @@ export default class OrderedList {
   mutateBy(cb, args = {}) {
     if (cb) {
       const data = cb.call(null, this, args)
-      if (data.length) {
+      if (data instanceof Array) {
         this.data = this.makeOrderedMap(data) 
       }
     }
