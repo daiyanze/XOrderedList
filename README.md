@@ -61,7 +61,7 @@ list.mutate((orderedList) => {
 | ------------- |:-------------------|:-------|:-------------|
 | findOne       | id: Any            | Object | Same to Map.get. Query one result from list |
 | findList      | idList: Array      | Object | Query results |
-| insertOne     | obj: Object        | this   | Insert data after the given id of the list |
+| insertOne     | obj: Object, index: Number        | this   | Insert data after the given id of the list |
 | unshift       | arrOfObject: Array | this   | Add data to the start of list |
 | push          | arrOfObject: Array | this   | Add data at the end of list |
 | update        | arrOfObject: Array | this   | Update the given data |
