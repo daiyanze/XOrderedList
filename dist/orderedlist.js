@@ -137,15 +137,11 @@
       }
     }, {
       key: 'insertOne',
-      value: function insertOne(obj, afterId) {
-        if (obj.hasOwnProperty(this.idAttr) && afterId) {
-          var idx = this.keys.indexOf(afterId);
-          idx = idx ? idx : idx + 1;
-          if (idx > 0) {
-            var clone = [].concat(_toConsumableArray(this.values));
-            clone.splice(idx, 0, obj);
-            this.data = this.makeOrderedMap(clone);
-          }
+      value: function insertOne(obj, idx) {
+        if (obj.hasOwnProperty(this.idAttr) && !isNaN(idx) && idx >= 0) {
+          var clone = [].concat(_toConsumableArray(this.values));
+          clone.splice(idx, 0, obj);
+          this.data = this.makeOrderedMap(clone);
         }
         return this;
       }
