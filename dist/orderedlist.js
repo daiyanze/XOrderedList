@@ -238,7 +238,7 @@
 
         if (cb) {
           var data = cb.call(null, this, args);
-          if (data.length) {
+          if (data instanceof Array) {
             this.data = this.makeOrderedMap(data);
           }
         }
