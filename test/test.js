@@ -160,5 +160,12 @@ describe('OrderedList Behaviours', () => {
       expect(res).not.to.be.undefined
       expect(res.id).to.equal(1)
     })
+
+    it('should remove all inner data', () => {
+      model.mutateBy(() => {
+        return []
+      })
+      expect(model.size).to.equal(0)
+    })
   })
 })
